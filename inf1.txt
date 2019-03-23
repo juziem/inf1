@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include<malloc.h>
+#include<string.h>
+
+struct Node 
+{
+	char *data;
+	struct Node*next;
+	struct Node*prev;
+};
+
+struct Node*head = NULL;
+struct Node*tail = NULL;
+	
+struct Node*push_stack(struct Node *head, char val)
+{
+	struct Node *cur = (struct Node*)malloc(sizeof(struct Node));
+	int l = strlen(val);
+	cur->data = (char*)malloc(l++);
+	strncpy(cur->data, val, l);
+	cur->next = head;
+	head = cur;
+
+	return head;
+}
+
+struct Node*pop_stack(struct Node *head, char val)
+{
+	struct Node *cur;
+
+	while (cur != NULL)
+	{
+		if (cur == head)
+		{
+			head = cur->next;
+			if (head != NULL)
+				head->prev = NULL;
+			struct Node *tmp = cur;
+			cur = cur->next;
+
+			free(tmp);
+		}
+		else//можно добавить проверку, не последняя ли это запись. Но надо ли нам это?
+		{
+			cur->prev->next = cur->next;//"вытеснение" объекта из очереди
+			cur->next->prev = cur->prev;
+			struct Node*tmp = cur;
+			cur = cur->next;
+			free(tmp);
+		}
+	}
+	return head;
+}
+
+struct Node*push_queue(struct Node *tail, char val)
+{
+	struct Node *cur = (struct Node*)malloc(sizeof(struct Node));
+	tail->next = cur;//новый элемент в конце списка
+	strncpy(cur->data, val);//запись значений (?)
+	cur->next = NULL;
+	tail = cur;
+
+	cur = head;
+	return head;
+}
+
+struct Node*pop_queue(struct Node *tail, char val)
+{
+	struct Node*cur;
+	while (cur != NULL)
+	{
+		if (cur == head)
+		{
+
+		}
+		else
+		{
+			struct Node*tmp = cur;
+			cur = cur->next;
+			free(tmp);
+		}
+	}
+}
